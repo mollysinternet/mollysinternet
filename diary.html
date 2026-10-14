@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dear internet... ♡ | molly's internet</title>
+<style>
+:root{--purple:#39235f;--pink:#f6a7df;--cream:#fff4fb;--ink:#4d2c65}*{box-sizing:border-box}body{margin:0;background:repeating-linear-gradient(45deg,#332051,#332051 20px,#3c275d 20px,#3c275d 40px);color:var(--ink);font:16px/1.6 Verdana,Geneva,sans-serif}a{color:#963e86}.shell{max-width:850px;margin:35px auto;background:#fff1fc;border:5px ridge #dca6e9;box-shadow:0 10px 40px #1c103c88}.header{background:var(--purple);color:white;text-align:center;padding:28px 18px}.header h1{color:var(--pink);font-size:clamp(26px,6vw,44px);margin:4px 0}.header p{margin:0;color:#f5d4ff}.nav{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:12px;background:#eab7e8}.nav a{background:white;border:2px solid #a46bb8;padding:5px 12px;text-decoration:none;font-size:13px;font-weight:bold}.content{padding:clamp(16px,4vw,36px)}.intro{text-align:center;margin-bottom:25px}.entry{background:white;border:2px solid #d8a3d7;padding:22px;margin-bottom:20px;box-shadow:4px 4px 0 #ebc5e7}.date{color:#9d548e;font-size:12px;font-weight:bold;letter-spacing:1px}.entry h2{font-size:21px;margin:6px 0 10px;color:#693b86}.entry p{white-space:pre-wrap;margin:10px 0}.more[hidden]{display:none}.toggle{cursor:pointer;background:#e8ff68;border:2px solid #553775;padding:7px 14px;color:#382354;font-weight:bold;font-family:inherit}.status{text-align:center;color:#7b5888}.footer{text-align:center;background:#39235f;color:#f5d4ff;padding:16px;font-size:12px}@media(max-width:600px){.shell{margin:10px}.entry{padding:16px}}
+</style>
+</head>
+<body><main class="shell"><header class="header"><div>★ mollysinternet.com ★</div><h1>dear internet... ♡</h1><p>thoughts, memories & other nonsense</p></header><nav class="nav"><a href="index.html">← home</a><a href="diary.html" aria-current="page">✎ diary</a></nav><section class="content"><div class="intro">welcome to my diary! click <strong>read more</strong> to open an entry. ♡</div><div id="entries" aria-live="polite"><p class="status">loading diary...</p></div></section><footer class="footer">♡ you've reached the end of the internet (for now) ♡</footer></main>
+<script>
+(async function(){
+const root=document.getElementById('entries');
+function el(tag,className,text){const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node}
+try{
+ const indexResponse=await fetch('posts/index.json',{cache:'no-store'});if(!indexResponse.ok)throw Error('Cannot load post list');
+ const filenames=await indexResponse.json();if(!Array.isArray(filenames))throw Error('Invalid post list');
+ const results=await Promise.all(filenames.map(async name=>{if(typeof name!=='string'||!/^[-\w]+\.json$/.test(name))return null;try{const r=await fetch('posts/'+encodeURIComponent(name));if(!r.ok)return null;return await r.json()}catch{return null}}));
+ const posts=results.filter(p=>p&&typeof p.title==='string'&&typeof p.date==='string'&&typeof p.preview==='string');
+ posts.sort((a,b)=>b.date.localeCompare(a.date));root.replaceChildren();
+ if(!posts.length){root.append(el('p','status','no diary entries yet ♡'));return}
+ for(const p of posts){const article=el('article','entry');article.append(el('div','date',new Date(p.date+'T12:00:00').toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}).toUpperCase()));article.append(el('h2','',p.title));article.append(el('p','',p.preview));if(p.more){const more=el('p','more',p.more);more.hidden=true;const button=el('button','toggle','read more →');button.type='button';button.setAttribute('aria-expanded','false');button.addEventListener('click',()=>{more.hidden=!more.hidden;button.textContent=more.hidden?'read more →':'show less ↑';button.setAttribute('aria-expanded',String(!more.hidden))});article.append(more,button)}root.append(article)}
+}catch(e){root.replaceChildren(el('p','status','The diary could not load. Please try refreshing the page.'))}
+})();
+</script></body></html>
