@@ -63,11 +63,47 @@ footer{margin-top:70px;padding-top:15px;border-top:1px solid #aaa;font-size:10px
     <a class="tile tile-link" href="projects.html"><img class="art-image" src="assets/projects-collage.png" alt="Projects collage"><h2>Tiny Projects <span class="arrow">→</span></h2><p>STUFF I MAKE<br>ON THE INTERNET</p></a>
     <aside class="recent"><strong>RECENTLY...</strong>
       <!-- EDIT RECENT UPDATES HERE -->
-      <p>UPDATED HOMEPAGE</p><p>GROCERY SHOPPING</p><p>PLANNED A TRIP</p><p>RESEARCHED HYSAS</p><p>MADE CHICKEN PARM</p>
+      <aside class="recent" aria-live="polite">
+  <strong>RECENTLY...</strong>
+  <div id="recent-entries">
+    <p>Loading latest entries...</p>
+  </div>
+</aside>
     </aside>
   </div>
 </main>
 <footer>© 2026 MOLLY'S INTERNET</footer>
 </div>
+  
+<script>
+async function loadRecently() {
+  const target = document.getElementById('recent-entries');
+
+  try {
+    const response = await fetch('content/timeline.json');
+    if (!response.ok) throw new Error('Could not load timeline');
+
+    const entries = await response.json();
+
+    const latest = entries
+      .filter(entry => entry.date && entry.text)
+      .sort((a, b) => b.date.localeCompare(a.date))
+      .slice(0, 4);
+
+    target.replaceChildren();
+
+    latest.forEach(entry => {
+      const p = document.createElement('p');
+      p.textContent = `${entry.date} — ${entry.text}`;
+      target.appendChild(p);
+    });
+
+  } catch (error) {
+    target.textContent = 'Recent entries unavailable.';
+  }
+}
+
+loadRecently();
+</script>
 </body>
 </html>
