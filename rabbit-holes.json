@@ -1,0 +1,13 @@
+[
+  {
+    "title": "Things I researched recently",
+    "date": "2026-10-20",
+    "text": "A little note about something interesting I found.",
+    "links": [
+      {
+        "label": "Example link",
+        "url": "https://example.com"
+      }
+    ]
+  }
+]
