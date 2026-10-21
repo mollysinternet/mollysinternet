@@ -10,7 +10,18 @@
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:'DM Mono',monospace;font-size:13px}
 .site{max-width:1600px;margin:auto;padding:18px 3.2vw 50px}a{color:inherit}nav{display:flex;justify-content:flex-end;gap:24px;flex-wrap:wrap;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin:15px 0 12px}nav a{text-decoration:none}nav a:hover{text-decoration:underline;text-underline-offset:5px}
 .layout{display:grid;grid-template-columns:45% 29% 26%;align-items:start}.left{grid-column:1;grid-row:1;position:relative}.masthead{font-family:'Archivo Black',Impact,sans-serif;font-size:clamp(62px,7vw,130px);line-height:.83;letter-spacing:-.085em;text-transform:uppercase;margin:0 0 24px;overflow-wrap:normal}.photobooth{width:94%;margin:5px 0 0 -1%;border:11px solid #111;transform:rotate(-3deg);box-shadow:2px 4px 0 #111}.photogrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:#111}.photogrid .image-placeholder{aspect-ratio:1/1.12;border:0;border-radius:0}.deco-fish{position:absolute;left:-5%;top:50%;width:23%;transform:rotate(-15deg)}.deco-star{position:absolute;left:-4%;top:32%;width:20%;transform:rotate(-10deg)}
-.center{grid-column:2;grid-row:1;padding:125px 18px 0 28px;position:relative;z-index:2;min-width:0}.highlight{display:inline-block;background:var(--lime);padding:7px 10px;letter-spacing:1px}.date{font-size:clamp(19px,2vw,31px);letter-spacing:2px;margin:19px 0 14px}.status{border-top:1px solid #222;border-bottom:1px solid #aaa;padding:23px 0;display:grid;gap:15px}.status-row{display:grid;grid-template-columns:118px 1fr;gap:7px}.status-row strong{font-size:11px}
+.center/* Keep Today's Status and people collage in the top row */
+@media (min-width: 1051px) {
+  .center {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .right {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
 .right{grid-column:3;grid-row:1;position:relative;padding:55px 0 0 15px;min-width:0}.note{background:#f7d5df;padding:12px 15px;letter-spacing:1.5px;line-height:1.5;width:max-content;max-width:100%;margin:0 0 20px auto;transform:rotate(-2deg)}.people-placeholder{min-height:340px}.top-fish{position:absolute;right:-8px;top:12px;width:82px;transform:rotate(12deg);pointer-events:none}
 .bottom{grid-column:2/4;grid-row:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.35fr);gap:24px 20px;margin-top:355px;padding:0 4px;position:relative;z-index:1}.bottom .tile:nth-child(3){grid-column:1;grid-row:2}.bottom .tile:nth-child(4){grid-column:2;grid-row:2}.bottom .recent{grid-column:3;grid-row:2;align-self:stretch;min-height:170px}.tile{min-width:0}.tile .image-placeholder{height:155px}.tile h2{font:18px 'Archivo Black',Impact,sans-serif;text-transform:uppercase;margin:11px 0 4px;letter-spacing:.3px}.tile p{font-size:11px;line-height:1.5;letter-spacing:1px;margin:0}.arrow{float:right;font:23px Arial,sans-serif}.recent{border:1px solid #111;padding:14px;align-self:end;min-height:190px}.recent strong{display:block;margin-bottom:15px}.recent p{font-size:11px;letter-spacing:1px;margin:0 0 10px}
 /* IMAGE FILES: All artwork lives in the asset/ folder. Replace files with your own whenever you like. */
