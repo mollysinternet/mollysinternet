@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Molly's Internet — a little bit of everything on the internet.">
+  <title>Molly's Internet</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Mono:wght@400;500;700&display=swap');
+
+    :root { --paper:#faf9f5; --ink:#141414; --pink:#f5bed0; --lime:#e0f18b; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:13px 'DM Mono',monospace; }
+    a { color:inherit; }
+    img { display:block; max-width:100%; }
+    .site { max-width:1600px; margin:0 auto; padding:22px clamp(18px,3vw,48px) 38px; }
+    .nav { display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:clamp(12px,2.6vw,40px); min-height:35px; margin-bottom:24px; font-size:11px; letter-spacing:1.2px; text-transform:uppercase; }
+    .nav a { text-decoration:none; white-space:nowrap; }
+    .nav a:hover, .nav a[aria-current="page"] { text-decoration:underline; text-underline-offset:5px; }
+    .nav a:focus-visible, .tile:focus-visible { outline:3px solid #ee78a8; outline-offset:5px; }
+
+    /* Two independent columns: the photo collage never pushes the content cards around. */
+    .layout { display:grid; grid-template-columns:minmax(0,45%) minmax(0,55%); align-items:start; gap:0; }
+    .left { position:relative; min-width:0; padding-right:22px; }
+    .masthead { font:clamp(62px,8.9vw,145px)/.82 'Archivo Black',Impact,sans-serif; letter-spacing:-.085em; text-transform:uppercase; margin:-50px 0 30px; position:relative; z-index:1; }
+    .photobooth { width:96%; margin:5px 0 45px 2%; transform:rotate(-3deg); position:relative; z-index:1; }
+    .photobooth-photo { width:100%; height:auto; }
+    .deco { position:absolute; z-index:2; pointer-events:none; }
+    .deco img { width:100%; height:auto; }
+    .deco-star { width:19%; left:-5%; top:29%; transform:rotate(-10deg); }
+    .deco-fish { width:30%; left:-9%; top:47%; transform:rotate(-13deg); }
+
+    .content { min-width:0; padding-left:14px; }
+    .top { display:grid; grid-template-columns:minmax(0,1.13fr) minmax(0,1fr); gap:26px; align-items:start; min-height:420px; }
+    .status-panel { padding-top:105px; min-width:0; }
+    .highlight { display:inline-block; background:var(--lime); padding:7px 12px; font-weight:700; letter-spacing:1.3px; }
+    .date { font-size:clamp(19px,2vw,30px); letter-spacing:1.5px; margin:20px 0 12px; white-space:nowrap; }
+    .status { border-top:1px solid #777; border-bottom:1px solid #777; padding:16px 2px 22px; }
+    .status-row { display:grid; grid-template-columns:125px minmax(0,1fr); gap:5px; padding:7px 0; line-height:1.45; }
+    .status-row strong { font-size:11px; }
+    .status-row span { overflow-wrap:anywhere; }
+    .right { position:relative; min-width:0; padding-top:0; }
+    .people-collage { width:100%; height:335px; object-fit:contain; object-position:center top; }
+    .note { background:#f7d5df; padding:10px 12px; font-size:11px; line-height:1.5; letter-spacing:1.5px; width:max-content; max-width:75%; margin:0 0 12px auto; transform:rotate(-2deg); }
+    .top-fish { position:absolute; width:100px; top:-55px; right:-20px; transform:rotate(12deg); pointer-events:none; }
+
+    /* Featured cards: four links plus Recently, no Year in Review. */
+    .features { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); column-gap:22px; row-gap:26px; align-items:start; margin-top:8px; }
+    .tile { display:block; min-width:0; text-decoration:none; }
+    .tile img { width:100%; height:145px; object-fit:contain; object-position:center bottom; }
+    .tile h2 { font:clamp(14px,1.25vw,19px) 'Archivo Black',Impact,sans-serif; text-transform:uppercase; letter-spacing:.2px; margin:10px 0 5px; }
+    .tile p { font-size:10px; line-height:1.55; letter-spacing:1px; margin:0; }
+    .tile:hover h2 { text-decoration:underline; text-underline-offset:4px; }
+    .arrow { float:right; font:22px Arial,sans-serif; }
+    .recent { grid-column:3; grid-row:2; border:1px solid var(--ink); padding:14px; min-height:178px; align-self:stretch; }
+    .recent > strong { display:block; font-size:11px; margin-bottom:14px; letter-spacing:1px; }
+    #recent-entries { max-height:130px; overflow:auto; }
+    #recent-entries p { font-size:10px; line-height:1.6; letter-spacing:.8px; margin:0 0 8px; overflow-wrap:anywhere; }
+    #recent-entries p strong { font-weight:700; }
+    footer { margin-top:65px; padding-top:15px; border-top:1px solid #aaa; font-size:10px; letter-spacing:1px; }
+
+    @media (max-width:1150px) {
+      .masthead { font-size:clamp(55px,8.4vw,105px); margin-top:-30px; }
+      .top { min-height:370px; gap:14px; }
+      .status-panel { padding-top:70px; }
+      .status-row { grid-template-columns:110px minmax(0,1fr); }
+      .features { gap:18px 14px; }
+      .tile img { height:120px; }
+    }
+    @media (max-width:850px) {
+      .layout { grid-template-columns:minmax(0,42%) minmax(0,58%); }
+      .top { grid-template-columns:1fr; min-height:0; }
+      .status-panel { padding-top:12px; }
+      .right { display:flex; align-items:center; gap:12px; margin:18px 0; }
+      .note { order:2; max-width:42%; }
+      .people-collage { height:170px; }
+      .top-fish { display:none; }
+      .features { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .recent { grid-column:1/-1; grid-row:auto; }
+      .masthead { margin-top:0; }
+    }
+    @media (max-width:600px) {
+      .site { padding:14px 17px 30px; }
+      .nav { justify-content:flex-start; gap:12px 17px; margin-bottom:28px; font-size:10px; }
+      .layout { display:block; }
+      .left { padding:0; }
+      .masthead { font-size:clamp(54px,13vw,90px); margin:0 0 20px; }
+      .photobooth { width:82%; margin:12px auto 40px; }
+      .deco-star { top:25%; }
+      .deco-fish { top:48%; }
+      .content { padding:0; }
+      .status-panel { padding-top:10px; }
+      .date { white-space:normal; }
+      .top { display:block; }
+      .right { margin:28px 0; }
+      .features { gap:24px 15px; margin-top:24px; }
+      .tile img { height:115px; }
+      .tile h2 { font-size:15px; }
+      footer { margin-top:45px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="site">
+    <nav class="nav" aria-label="Site navigation">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="timeline.html">Timeline</a>
+      <a href="photos.html">Photos</a>
+      <a href="rabbit-holes.html">Rabbit Holes</a>
+      <a href="projects.html">Projects</a>
+    </nav>
+
+    <main class="layout">
+      <div class="left">
+        <h1 class="masthead">Molly's<br>Internet</h1>
+        <div class="photobooth"><img class="photobooth-photo" src="asset/photobooth-reference.png" alt="Nine-frame photo booth collage"></div>
+        <div class="deco deco-star" aria-hidden="true"><img src="asset/pink-star.png" alt=""></div>
+        <div class="deco deco-fish" aria-hidden="true"><img src="asset/orange-fish-left.png" alt=""></div>
+      </div>
+
+      <div class="content">
+        <div class="top">
+          <section class="status-panel" aria-label="Today's status">
+            <span class="highlight">TODAY'S STATUS</span>
+            <!-- Edit the date and status values below whenever you like. -->
+            <div class="date">OCTOBER 20, 2026</div>
+            <div class="status">
+              <div class="status-row"><strong>MOOD:</strong><span>😊</span></div>
+              <div class="status-row"><strong>CURRENTLY:</strong><span>Building Molly's Internet</span></div>
+              <div class="status-row"><strong>LISTENING TO:</strong><span>...</span></div>
+              <div class="status-row"><strong>THINKING ABOUT:</strong><span>Vacation plans</span></div>
+              <div class="status-row"><strong>WIN OF THE DAY:</strong><span>Finished my budget dashboard</span></div>
+            </div>
+          </section>
+
+          <div class="right">
+            <div class="top-fish" aria-hidden="true"><img src="asset/orange-fish-top.png" alt=""></div>
+            <div class="note">A LITTLE BIT<br>OF EVERYTHING<br>ON THE INTERNET</div>
+            <img class="people-collage" src="asset/people-collage.png" alt="Colorful people collage">
+          </div>
+        </div>
+
+        <section class="features" aria-label="Explore the website">
+          <a class="tile" href="timeline.html"><img src="asset/cleo%20bear.png" alt="Timeline collage"><h2>Timeline <span class="arrow" aria-hidden="true">→</span></h2><p>A LITTLE BIT<br>OF EVERY DAY</p></a>
+          <a class="tile" href="photos.html"><img src="asset/camera-collage.png" alt="Camera collage"><h2>Life Lately <span class="arrow" aria-hidden="true">→</span></h2><p>PHOTOS, SCREENSHOTS<br>&amp; MEMORIES</p></a>
+          <a class="tile" href="rabbit-holes.html"><img src="asset/rabbit-holes-collage.png" alt="Rabbit holes collage"><h2>Rabbit Holes <span class="arrow" aria-hidden="true">→</span></h2><p>THINGS I GET<br>CURIOUS ABOUT</p></a>
+          <a class="tile" href="projects.html"><img src="asset/projects-collage.png" alt="Projects collage"><h2>Tiny Projects <span class="arrow" aria-hidden="true">→</span></h2><p>STUFF I MAKE<br>ON THE INTERNET</p></a>
+          <aside class="recent" aria-label="Recent timeline entries">
+            <strong>RECENTLY...</strong>
+            <!-- Automatically populated from content/timeline.json. -->
+            <div id="recent-entries" aria-live="polite"><p>Loading latest entries...</p></div>
+          </aside>
+        </section>
+      </div>
+    </main>
+    <footer>© 2026 MOLLY'S INTERNET</footer>
+  </div>
+
+  <script>
+    // Keep the four newest timeline entries in sync with content/timeline.json.
+    (async function loadRecently() {
+      const target = document.getElementById('recent-entries');
+      try {
+        const response = await fetch('content/timeline.json', { cache: 'no-cache' });
+        if (!response.ok) throw new Error('Timeline file not found');
+        const entries = await response.json();
+        if (!Array.isArray(entries)) throw new Error('Timeline data must be an array');
+        const latest = entries
+          .filter(entry => entry && entry.date && entry.text)
+          .sort((a, b) => String(b.date).localeCompare(String(a.date)))
+          .slice(0, 4);
+        target.replaceChildren();
+        if (!latest.length) {
+          const p = document.createElement('p');
+          p.textContent = 'Nothing here yet — check back soon!';
+          target.append(p);
+          return;
+        }
+        for (const entry of latest) {
+          const p = document.createElement('p');
+          const date = document.createElement('strong');
+          date.textContent = entry.date + ' — ';
+          p.append(date, document.createTextNode(entry.text));
+          target.append(p);
+        }
+      } catch (error) {
+        target.replaceChildren();
+        const p = document.createElement('p');
+        p.textContent = 'Recent entries unavailable right now.';
+        target.append(p);
+        console.error('Could not load timeline entries:', error);
+      }
+    })();
+  </script>
+</body>
+</html>
